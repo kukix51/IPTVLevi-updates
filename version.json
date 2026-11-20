@@ -1,6 +1,6 @@
 {
-  "versionCode": 27,
-  "versionName": "3.3",
+  "versionCode": 30,
+  "versionName": "3.6",
   "apk": "https://raw.githubusercontent.com/kukix51/IPTVLevi-updates/main/IPTV-Levichi.apk",
-  "notes": "• Con el mando, lo seleccionado se marca con un marco blanco sin cambiar de tamaño.\n• Ajustes más simple."
+  "notes": "• Arreglado: a veces no salían los canales.\n• Listas M3U: películas y series en su apartado.\n• Carátulas más pequeñas.\n• Con el mando, OK en una carpeta entra dentro.\n\nDespués de actualizar pulsa ⟳ Recargar."
 }
