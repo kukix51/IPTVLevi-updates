@@ -1,6 +1,6 @@
 {
-  "versionCode": 15,
-  "versionName": "2.1",
+  "versionCode": 16,
+  "versionName": "2.2",
   "apk": "https://raw.githubusercontent.com/kukix51/IPTVLevi-updates/main/IPTV-Levichi.apk",
-  "notes": "• Conectar lista: botón «← Inicio» para volver."
+  "notes": "• Inicio: logo como marca de agua en los recuadros de TV en vivo, Películas y Series."
 }
