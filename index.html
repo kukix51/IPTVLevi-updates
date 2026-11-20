@@ -82,7 +82,9 @@ button.go:disabled{opacity:.6}
       <li>Ve a <b>Conectar lista → 📥 Recibir con código</b>.</li>
       <li>Escribe las 8 letras (da igual mayúsculas o minúsculas) y pulsa <b>Conectar</b>.</li>
     </ol>
-    <div class="small">El código caduca en 12 horas. La lista viaja cifrada: sin el código nadie puede leerla.</div>
+    <div class="small">El código vale 15 minutos. La lista viaja cifrada: sin el código nadie puede leerla.</div>
+    <div id="rerr" class="small" style="color:#ff6b81"></div>
+    <button class="again" id="regen" type="button">🔄 Generar otro código</button>
     <button class="again" id="again" type="button">Subir otra lista</button>
   </div>
   <div class="small">Esta página no guarda nada: cifra la lista en tu navegador antes de enviarla.</div>
@@ -93,6 +95,14 @@ let xt = true;
 function tab(x) { xt = x; $('tX').classList.toggle('on', x); $('tM').classList.toggle('on', !x); $('bx').style.display = x ? '' : 'none'; $('bm').style.display = x ? 'none' : ''; $('err').textContent = ''; }
 $('tX').onclick = () => tab(true); $('tM').onclick = () => tab(false);
 document.querySelectorAll('input').forEach(i => i.addEventListener('input', () => $('err').textContent = ''));
+let lastObj = null;
+$('regen').onclick = async () => {
+  if (!lastObj) return;
+  const b = $('regen'); b.disabled = true; b.textContent = 'Generando…'; $('rerr').textContent = '';
+  try { $('code').textContent = await upload(lastObj); }
+  catch (err) { $('rerr').textContent = 'No se pudo generar el código: ' + err.message; }
+  finally { b.disabled = false; b.textContent = '🔄 Generar otro código'; }
+};
 $('again').onclick = () => { $('res').style.display = 'none'; $('form').style.display = ''; };
 
 const ALPHA = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
@@ -144,6 +154,7 @@ $('f').onsubmit = async e => {
   $('go').disabled = true; $('go').textContent = 'Generando…';
   try {
     $('code').textContent = await upload(obj);
+    lastObj = obj; $('rerr').textContent = '';
     $('form').style.display = 'none'; $('res').style.display = 'block';
   } catch (err) {
     $('err').textContent = 'No se pudo generar el código: ' + err.message;
