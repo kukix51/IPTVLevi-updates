@@ -1,6 +1,6 @@
 {
-  "versionCode": 18,
-  "versionName": "2.4",
+  "versionCode": 19,
+  "versionName": "2.5",
   "apk": "https://raw.githubusercontent.com/kukix51/IPTVLevi-updates/main/IPTV-Levichi.apk",
-  "notes": "• Al cambiar el logo en Ajustes, el inicio y las marcas de agua se actualizan al momento."
+  "notes": "• Nueva entrada: el logo se encoge a la izquierda y aparece «IPTV Levichi».\n• Marca de agua de los recuadros: siempre el escorpión C2."
 }
