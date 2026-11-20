@@ -1,6 +1,6 @@
 {
-  "versionCode": 34,
-  "versionName": "4.0",
+  "versionCode": 35,
+  "versionName": "4.1",
   "apk": "https://raw.githubusercontent.com/kukix51/IPTVLevi-updates/main/IPTV-Levichi.apk",
-  "notes": "• Canales: vuelven a reproducirse como en las primeras versiones.\n• Película o serie: el cursor va a Reproducir.\n• Botón Idioma y subtítulos en el reproductor.\n\nDespués de actualizar: Ajustes → Recargar toda la lista."
+  "notes": "• Nombres largos: se desplazan para leerlos al poner el cursor.\n• Al abrir, el cursor empieza en TV en vivo.\n• Canales como en las primeras versiones, cursor en Reproducir e Idioma y subtítulos."
 }
