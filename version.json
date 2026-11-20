@@ -1,6 +1,6 @@
 {
-  "versionCode": 7,
-  "versionName": "1.3",
+  "versionCode": 8,
+  "versionName": "1.4",
   "apk": "https://raw.githubusercontent.com/kukix51/IPTVLevi-updates/main/IPTV-Levichi.apk",
-  "notes": "• Inicio centrado con botones más grandes y datos de la cuenta más visibles.\n• TV en vivo: listas más anchas y vista previa más pequeña.\n• Películas y Series: categorías a la izquierda y carátulas grandes con el nombre.\n• Ficha más grande para leer la sinopsis.\n• Nuevo: grabaciones programadas."
+  "notes": "• Colores en degradado: TV en vivo naranja/rosa, Películas azul/violeta, Series turquesa.\n• Logo grande en el arranque y solo el logo en la cabecera.\n• TV en vivo: lista de canales más estrecha e imagen más grande.\n• Grabaciones: editor de día y hora, tamaño en tiempo real, botón Detener que guarda lo grabado.\n• Al borrar una grabación desaparece de Seguir viendo."
 }
