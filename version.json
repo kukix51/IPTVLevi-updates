@@ -1,6 +1,6 @@
 {
-  "versionCode": 16,
-  "versionName": "2.2",
+  "versionCode": 17,
+  "versionName": "2.3",
   "apk": "https://raw.githubusercontent.com/kukix51/IPTVLevi-updates/main/IPTV-Levichi.apk",
-  "notes": "• Inicio: logo como marca de agua en los recuadros de TV en vivo, Películas y Series."
+  "notes": "• Marca de agua del inicio en negro al 8 %."
 }
