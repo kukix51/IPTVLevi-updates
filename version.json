@@ -1,6 +1,6 @@
 {
-  "versionCode": 19,
-  "versionName": "2.5",
+  "versionCode": 20,
+  "versionName": "2.6",
   "apk": "https://raw.githubusercontent.com/kukix51/IPTVLevi-updates/main/IPTV-Levichi.apk",
-  "notes": "• Nueva entrada: el logo se encoge a la izquierda y aparece «IPTV Levichi».\n• Marca de agua de los recuadros: siempre el escorpión C2."
+  "notes": "• Código de lista: 8 letras sin guion, en mayúsculas o minúsculas."
 }

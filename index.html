@@ -80,7 +80,7 @@ button.go:disabled{opacity:.6}
     <ol class="steps">
       <li>Abre IPTV Levichi en la tele o el móvil.</li>
       <li>Ve a <b>Conectar lista → 📥 Recibir con código</b>.</li>
-      <li>Escribe el código y pulsa <b>Conectar</b>.</li>
+      <li>Escribe las 8 letras (da igual mayúsculas o minúsculas) y pulsa <b>Conectar</b>.</li>
     </ol>
     <div class="small">El código caduca en 12 horas. La lista viaja cifrada: sin el código nadie puede leerla.</div>
     <button class="again" id="again" type="button">Subir otra lista</button>
@@ -118,7 +118,7 @@ async function upload(obj) {
   const all = new Uint8Array(iv.length + ct.length); all.set(iv); all.set(ct, iv.length);
   const r = await fetch('https://ntfy.sh/' + topic, {method: 'POST', headers: {'Cache': 'yes'}, body: b64(all)});
   if (!r.ok) throw new Error('El servicio de códigos respondió ' + r.status);
-  return code.slice(0, 4) + '-' + code.slice(4);
+  return code;
 }
 $('f').onsubmit = async e => {
   e.preventDefault();
