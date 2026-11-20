@@ -1,6 +1,6 @@
 {
-  "versionCode": 14,
-  "versionName": "2.0",
+  "versionCode": 15,
+  "versionName": "2.1",
   "apk": "https://raw.githubusercontent.com/kukix51/IPTVLevi-updates/main/IPTV-Levichi.apk",
-  "notes": "• Recibir con código: ya no pide nombre, usa el que pusiste en la web."
+  "notes": "• Conectar lista: botón «← Inicio» para volver."
 }
