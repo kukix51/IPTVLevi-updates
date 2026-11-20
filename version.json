@@ -1,6 +1,6 @@
 {
-  "versionCode": 9,
-  "versionName": "1.5",
+  "versionCode": 10,
+  "versionName": "1.6",
   "apk": "https://raw.githubusercontent.com/kukix51/IPTVLevi-updates/main/IPTV-Levichi.apk",
-  "notes": "• Arranque solo con el logo.\n• Degradados más intensos en TV en vivo, Películas y Series.\n• Logo + «IPTV Levichi» con letra futurista arriba a la izquierda en cada sección."
+  "notes": "• «IPTV Levichi» con letra futurista también en el inicio, junto al logo."
 }
