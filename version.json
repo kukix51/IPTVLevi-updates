@@ -1,6 +1,6 @@
 {
-  "versionCode": 12,
-  "versionName": "1.8",
+  "versionCode": 13,
+  "versionName": "1.9",
   "apk": "https://raw.githubusercontent.com/kukix51/IPTVLevi-updates/main/IPTV-Levichi.apk",
-  "notes": "• TV en vivo en tonos rojos.\n• Ya puedes subir tu lista desde la web kukix51.github.io/IPTVLevi-updates y recibirla con el código."
+  "notes": "• TV en vivo: más detalles en rojo (botones, buscador, guía).\n• Quitado 'Generar código' de Ajustes: los códigos se crean en la web."
 }
