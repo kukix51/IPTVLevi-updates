@@ -1,6 +1,6 @@
 {
-  "versionCode": 36,
-  "versionName": "4.2",
+  "versionCode": 37,
+  "versionName": "4.3",
   "apk": "https://raw.githubusercontent.com/kukix51/IPTVLevi-updates/main/IPTV-Levichi.apk",
-  "notes": "• Al salir de TV en vivo, el sonido se corta al instante."
+  "notes": "• Películas y Series: el cursor va a las carátulas y se queda en la que abriste al volver.\n• Al volver del reproductor, el cursor sigue en Reproducir o en el episodio."
 }
