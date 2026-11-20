@@ -1,6 +1,6 @@
 {
-  "versionCode": 20,
-  "versionName": "2.6",
+  "versionCode": 23,
+  "versionName": "2.9",
   "apk": "https://raw.githubusercontent.com/kukix51/IPTVLevi-updates/main/IPTV-Levichi.apk",
-  "notes": "• Código de lista: 8 letras sin guion, en mayúsculas o minúsculas."
+  "notes": "• Abre mucho más rápido: la lista se guarda en el aparato y se actualiza sola por detrás.\n• Con el mando se ve mucho mejor qué está seleccionado.\n• Código de lista en letra clara."
 }
