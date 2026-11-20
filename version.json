@@ -1,6 +1,6 @@
 {
-  "versionCode": 17,
-  "versionName": "2.3",
+  "versionCode": 18,
+  "versionName": "2.4",
   "apk": "https://raw.githubusercontent.com/kukix51/IPTVLevi-updates/main/IPTV-Levichi.apk",
-  "notes": "• Marca de agua del inicio en negro al 8 %."
+  "notes": "• Al cambiar el logo en Ajustes, el inicio y las marcas de agua se actualizan al momento."
 }
