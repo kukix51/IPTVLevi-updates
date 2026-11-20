@@ -1,6 +1,6 @@
 {
-  "versionCode": 33,
-  "versionName": "3.9",
+  "versionCode": 34,
+  "versionName": "4.0",
   "apk": "https://raw.githubusercontent.com/kukix51/IPTVLevi-updates/main/IPTV-Levichi.apk",
-  "notes": "• Arreglado el error MANIFEST_MALFORMED en los canales: la app prueba otro formato y se queda con el que funciona."
+  "notes": "• Canales: vuelven a reproducirse como en las primeras versiones.\n• Película o serie: el cursor va a Reproducir.\n• Botón Idioma y subtítulos en el reproductor.\n\nDespués de actualizar: Ajustes → Recargar toda la lista."
 }
