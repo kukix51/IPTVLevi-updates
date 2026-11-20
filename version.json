@@ -1,6 +1,6 @@
 {
-  "versionCode": 23,
-  "versionName": "2.9",
+  "versionCode": 26,
+  "versionName": "3.2",
   "apk": "https://raw.githubusercontent.com/kukix51/IPTVLevi-updates/main/IPTV-Levichi.apk",
-  "notes": "• Abre mucho más rápido: la lista se guarda en el aparato y se actualiza sola por detrás.\n• Con el mando se ve mucho mejor qué está seleccionado.\n• Código de lista en letra clara."
+  "notes": "• Conectar lista: se comprueba antes de guardar y avisa si no es válida.\n• Códigos de lista válidos 15 minutos.\n• Ajustes: eliminar la lista activa.\n• Recargar contenido vuelve a descargar la lista."
 }
