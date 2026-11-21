@@ -52,7 +52,7 @@ async function tryOpaque(url, ms) {
   const c = new AbortController(); const t = setTimeout(() => c.abort(), ms);
   try { await fetch(url, {mode: 'no-cors', signal: c.signal}); return true; } catch (e) { return false; } finally { clearTimeout(t); }
 }
-function playTest(src, label) {
+function playTest(src) {
   return new Promise(res => {
     const v = document.createElement('video'); v.muted = true; v.playsInline = true; v.controls = true; v.src = src;
     out.appendChild(v);
@@ -84,15 +84,23 @@ $('go').onclick = async () => {
   }
   if (found) {
     line('', '⏳ Probando un canal…');
-    const r = await tryJson(found + q + '&action=get_live_streams', 20000);
-    const ch = r.ok && Array.isArray(r.data) ? r.data[0] : null;
-    if (!ch) line('wa', '⚠ No pude leer la lista de canales.');
+    const r = await tryJson(found + q + '&action=get_live_streams', 30000);
+    const all = r.ok && Array.isArray(r.data) ? r.data : [];
+    // se saltan los «separadores» (⚠ TDT ⚠, ----, ###) y se prueban hasta 4 canales de verdad
+    const real = all.filter(c => c && c.stream_id != null && /[a-záéíóúñ]{2}/i.test(String(c.name || '')) && !/[⚠#═─]|-{3,}|\*{3,}/.test(String(c.name || '')));
+    const pick = [];
+    for (let i = 0; i < real.length && pick.length < 4; i += Math.max(1, Math.floor(real.length / 4))) pick.push(real[i]);
+    if (!pick.length) line('wa', '⚠ No pude leer la lista de canales.');
     else {
       const enc = s => encodeURIComponent(s);
-      const okH = await playTest(`${found}/live/${enc(user)}/${enc(pass)}/${ch.stream_id}.m3u8`, 'm3u8');
-      line(okH ? 'ok' : 'ko', (okH ? '✅ ' : '✖ ') + `Canal «${ch.name}» en .m3u8: ` + (okH ? 'se reproduce' : 'no se reproduce'));
-      out.querySelectorAll('video').forEach(v => v.pause());
-      line(okH ? 'ok' : 'wa', okH ? '👉 RESULTADO: el modo directo SÍ funciona con tu proveedor.' : '👉 RESULTADO: la lista se lee, pero los canales no se reproducen en directo desde la web.');
+      let oks = 0;
+      for (const ch of pick) {
+        const ok = await playTest(`${found}/live/${enc(user)}/${enc(pass)}/${ch.stream_id}.m3u8`);
+        out.querySelectorAll('video').forEach(v => { v.pause(); v.remove(); });
+        line(ok ? 'ok' : 'ko', (ok ? '✅ ' : '✖ ') + `«${ch.name}»: ` + (ok ? 'se reproduce' : 'no se reproduce'));
+        if (ok) oks++;
+      }
+      line(oks ? 'ok' : 'wa', oks ? `👉 RESULTADO: el modo directo SÍ funciona (${oks} de ${pick.length} canales).` : '👉 RESULTADO: la lista se lee, pero los canales no se reproducen en directo desde la web.');
     }
   } else {
     line('ko', '👉 RESULTADO: el modo directo NO funciona: ' + (reachable.length ? 'tu proveedor tiene https, pero no deja que una web lea la lista.' : 'tu proveedor no tiene dirección https.'));
