@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>IPTV Levichi · Prueba modo directo</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#0A0618;color:#fff;font:16px/1.45 -apple-system,Segoe UI,Roboto,sans-serif;padding:20px 16px 40px}
+h1{font-size:22px;margin:0 0 4px;background:linear-gradient(90deg,#FF2BD6,#00E5FF);-webkit-background-clip:text;background-clip:text;color:transparent}
+p.s{color:#9a96b8;margin:0 0 16px;font-size:14px}
+label{display:block;font-size:13px;color:#9a96b8;margin:10px 0 4px}
+input{width:100%;padding:12px;border-radius:12px;border:1px solid #ffffff22;background:#000a;color:#fff;font-size:16px}
+button{width:100%;margin-top:16px;padding:14px;border:0;border-radius:24px;background:linear-gradient(90deg,#FF2BD6,#00E5FF);color:#fff;font-weight:700;font-size:16px}
+.r{margin-top:18px;padding:14px;border-radius:14px;background:#ffffff0d;border:1px solid #ffffff1f}
+.r div{margin:6px 0}
+.ok{color:#69f0ae}.ko{color:#ff6b81}.wa{color:#ffd54f}
+video{width:100%;margin-top:10px;border-radius:10px;background:#000}
+small{color:#9a96b8}
+</style>
+</head>
+<body>
+<h1>Prueba del modo directo</h1>
+<p class="s">Comprueba si el iPhone puede hablar directamente con tu proveedor, sin servidor. Tus datos no se guardan ni se envían a ningún otro sitio.</p>
+<label>Enlace M3U completo <small>(o rellena los tres campos de abajo)</small></label>
+<input id="m3u" placeholder="http://servidor:8080/get.php?username=…&password=…" autocapitalize="off" autocorrect="off">
+<label>Servidor</label><input id="srv" placeholder="http://servidor.com:8080" autocapitalize="off" autocorrect="off">
+<label>Usuario</label><input id="usr" autocapitalize="off" autocorrect="off">
+<label>Contraseña</label><input id="pwd" autocapitalize="off" autocorrect="off">
+<button id="go">Probar</button>
+<div class="r" id="out" hidden></div>
+<script>
+const $ = id => document.getElementById(id);
+const out = $('out');
+function line(cls, t) { const d = document.createElement('div'); d.className = cls; d.textContent = t; out.appendChild(d); return d; }
+function variants(server) {
+  const u = new URL(server);
+  const list = [];
+  const add = s => { if (!list.includes(s)) list.push(s); };
+  add('https://' + u.host);                       // mismo puerto con https
+  add('https://' + u.hostname);                   // puerto 443
+  ['8443', '2083', '25463', '2087'].forEach(p => add('https://' + u.hostname + ':' + p));
+  return list;
+}
+async function tryJson(url, ms) {
+  const c = new AbortController(); const t = setTimeout(() => c.abort(), ms);
+  try { const r = await fetch(url, {signal: c.signal}); return {ok: true, status: r.status, data: await r.json().catch(() => null)}; }
+  catch (e) { return {ok: false, err: e.name}; }
+  finally { clearTimeout(t); }
+}
+async function tryOpaque(url, ms) {
+  const c = new AbortController(); const t = setTimeout(() => c.abort(), ms);
+  try { await fetch(url, {mode: 'no-cors', signal: c.signal}); return true; } catch (e) { return false; } finally { clearTimeout(t); }
+}
+function playTest(src, label) {
+  return new Promise(res => {
+    const v = document.createElement('video'); v.muted = true; v.playsInline = true; v.controls = true; v.src = src;
+    out.appendChild(v);
+    const done = ok => { clearTimeout(t); res(ok); };
+    const t = setTimeout(() => done(false), 15000);
+    v.addEventListener('loadeddata', () => done(true), {once: true});
+    v.addEventListener('error', () => done(false), {once: true});
+    v.play().catch(() => {});
+  });
+}
+$('go').onclick = async () => {
+  out.hidden = false; out.innerHTML = '';
+  let server = $('srv').value.trim(), user = $('usr').value.trim(), pass = $('pwd').value.trim();
+  const m = $('m3u').value.trim();
+  if (m) { try { const u = new URL(m); server = u.protocol + '//' + u.host; user = u.searchParams.get('username') || ''; pass = u.searchParams.get('password') || ''; } catch (e) {} }
+  if (!/^https?:\/\//i.test(server)) server = 'http://' + server;
+  if (!server || !user || !pass) { line('ko', 'Faltan datos: pon el enlace M3U o servidor, usuario y contraseña.'); return; }
+  $('go').disabled = true; $('go').textContent = 'Probando…';
+  const q = `/player_api.php?username=${encodeURIComponent(user)}&password=${encodeURIComponent(pass)}`;
+  let found = null, reachable = [];
+  for (const base of variants(server)) {
+    const st = line('', '⏳ Probando ' + base + ' …');
+    const r = await tryJson(base + q, 8000);
+    if (r.ok && r.data && r.data.user_info) { st.className = 'ok'; st.textContent = '✅ ' + base + ': responde y deja leer la lista'; found = base; break; }
+    if (r.ok) { st.className = 'wa'; st.textContent = `⚠ ${base}: responde (HTTP ${r.status}) pero no con tus datos`; reachable.push(base); continue; }
+    const op = await tryOpaque(base + q, 6000);
+    if (op) { st.className = 'wa'; st.textContent = '⚠ ' + base + ': tiene https pero NO deja que una web lea la lista'; reachable.push(base); }
+    else { st.className = 'ko'; st.textContent = '✖ ' + base + ': no responde por https'; }
+  }
+  if (found) {
+    line('', '⏳ Probando un canal…');
+    const r = await tryJson(found + q + '&action=get_live_streams', 20000);
+    const ch = r.ok && Array.isArray(r.data) ? r.data[0] : null;
+    if (!ch) line('wa', '⚠ No pude leer la lista de canales.');
+    else {
+      const enc = s => encodeURIComponent(s);
+      const okH = await playTest(`${found}/live/${enc(user)}/${enc(pass)}/${ch.stream_id}.m3u8`, 'm3u8');
+      line(okH ? 'ok' : 'ko', (okH ? '✅ ' : '✖ ') + `Canal «${ch.name}» en .m3u8: ` + (okH ? 'se reproduce' : 'no se reproduce'));
+      out.querySelectorAll('video').forEach(v => v.pause());
+      line(okH ? 'ok' : 'wa', okH ? '👉 RESULTADO: el modo directo SÍ funciona con tu proveedor.' : '👉 RESULTADO: la lista se lee, pero los canales no se reproducen en directo desde la web.');
+    }
+  } else {
+    line('ko', '👉 RESULTADO: el modo directo NO funciona: ' + (reachable.length ? 'tu proveedor tiene https, pero no deja que una web lea la lista.' : 'tu proveedor no tiene dirección https.'));
+  }
+  line('', 'Haz una captura de esta pantalla y mándasela a Claude.');
+  $('go').disabled = false; $('go').textContent = 'Probar otra vez';
+};
+</script>
+</body>
+</html>
